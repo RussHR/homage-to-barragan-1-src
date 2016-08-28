@@ -5,4 +5,6 @@ if (module.hot) {
 import 'normalize.css';
 import './main.scss';
 
-console.log('hay I started');
+import HomageInteriorApp from './HomageInteriorApp';
+
+HomageInteriorApp.init();
