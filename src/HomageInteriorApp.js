@@ -1,5 +1,9 @@
 export default {
     init() {
-        console.log('hay i started');
+        this.findDomElements();
+    },
+
+    findDomElements() {
+        this.appEl = window.document.getElementById('homage-to-barragan-interior-app');
     }
 }
