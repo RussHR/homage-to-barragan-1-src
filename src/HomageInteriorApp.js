@@ -36,6 +36,7 @@ export default {
         const { innerHeight, innerWidth } = window;
         this.renderer = new THREE.WebGLRenderer({ antialias: true });
         this.renderer.setSize(innerWidth, innerHeight);
+        this.renderer.setClearColor(new THREE.Color(0xd8e6ff));
 
         while (this.appEl.hasChildNodes()) {
             this.appEl.removeChild(this.appEl.firstChild);
