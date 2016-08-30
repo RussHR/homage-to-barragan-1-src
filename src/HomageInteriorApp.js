@@ -7,9 +7,11 @@ export default {
         this.findDomElements();
 
         this.scene = new THREE.Scene();
+
         this.initializeLights();
         this.initializeCamera();
         this.initializeRenderer();
+        this.initializeMeshes();
 
         this.attachListeners();
 
@@ -18,6 +20,23 @@ export default {
 
     findDomElements() {
         this.appEl = document.getElementById('homage-to-barragan-interior-app');
+    },
+
+    initializeMeshes() {
+        const vector = new THREE.Vector3();
+        vector.x = 1;
+        vector.y = 1;
+        vector.unproject(this.camera);
+        const direction = vector.sub(this.camera.position).normalize();
+        const distance = -this.camera.position.z / direction.z;
+        const position = this.camera.position.clone().add(direction.multiplyScalar(distance));
+        console.log(position.x, position.y);
+
+        const boxGeometry =  new THREE.BoxGeometry(5, 5, 5);
+        const color = new THREE.Color(0xffffff);
+        const material = new THREE.MeshBasicMaterial({ color });
+        const boxMesh = new THREE.Mesh(boxGeometry, material);
+        this.scene.add(boxMesh);
     },
 
     initializeLights() {
@@ -60,6 +79,7 @@ export default {
 
     renderAnim(time) {
         // console.log(Math.sin(time / 1000));
+        this.renderer.render(this.scene, this.camera);
         requestAnimationFrame((timestamp) => this.renderAnim(timestamp));
     }
 };
