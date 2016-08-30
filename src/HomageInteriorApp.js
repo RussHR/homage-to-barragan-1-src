@@ -1,12 +1,17 @@
+import throttle from 'lodash/throttle';
+
 const THREE = require('three');
 
 export default {
     init() {
         this.findDomElements();
+
         this.scene = new THREE.Scene();
         this.initializeLights();
         this.initializeCamera();
         this.initializeRenderer();
+
+        this.attachListeners();
 
         this.renderAnim(0);
     },
@@ -40,7 +45,19 @@ export default {
         this.renderer.render(this.scene, this.camera);
     },
 
-    renderAnim(timestamp) {
+    attachListeners() {
+        this._onWindowResize = throttle(() => this.onWindowResize(), 16.667);
+        window.addEventListener('resize', this._onWindowResize);
+    },
+
+    onWindowResize() {
+        const { innerHeight, innerWidth } = window;
+        this.renderer.setSize(innerWidth, innerHeight);
+        this.camera.aspect = innerWidth / innerHeight;
+        this.camera.updateProjectionMatrix();
+    },
+
+    renderAnim(time) {
         // console.log(Math.sin(time / 1000));
         requestAnimationFrame((timestamp) => this.renderAnim(timestamp));
     }
