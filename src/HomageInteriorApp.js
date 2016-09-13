@@ -44,9 +44,35 @@ export default {
         const backPlaneMaterial = new THREE.MeshBasicMaterial({ color: backPlaneColor });
         const backPlaneGeometry =  new THREE.PlaneGeometry(20, 8);
         const backPlaneMesh = new THREE.Mesh(backPlaneGeometry, backPlaneMaterial);
-        backPlaneMesh.position.y = 3;
         backPlaneMesh.position.z = -10;
         this.scene.add(backPlaneMesh);
+
+        // back plane
+        const frontPlaneColor = new THREE.Color(0xaaaaaa);
+        const frontPlaneMaterial = new THREE.MeshBasicMaterial({ color: frontPlaneColor });
+        const frontPlaneGeometry =  new THREE.PlaneGeometry(20, 8);
+        const frontPlaneMesh = new THREE.Mesh(frontPlaneGeometry, frontPlaneMaterial);
+        frontPlaneMesh.position.z = 10;
+        frontPlaneMesh.rotation.y = Math.PI;
+        this.scene.add(frontPlaneMesh);
+
+        // left plane
+        const leftPlaneColor = new THREE.Color(0xcccccc);
+        const leftPlaneMaterial = new THREE.MeshBasicMaterial({ color: leftPlaneColor });
+        const leftPlaneGeometry =  new THREE.PlaneGeometry(20, 8);
+        const leftPlaneMesh = new THREE.Mesh(leftPlaneGeometry, leftPlaneMaterial);
+        leftPlaneMesh.position.x = -10;
+        leftPlaneMesh.rotation.y = Math.PI / 2;
+        this.scene.add(leftPlaneMesh);
+
+        // right plane
+        const rightPlaneColor = new THREE.Color(0xbbbbbb);
+        const rightPlaneMaterial = new THREE.MeshBasicMaterial({ color: rightPlaneColor });
+        const rightPlaneGeometry =  new THREE.PlaneGeometry(20, 8);
+        const rightPlaneMesh = new THREE.Mesh(rightPlaneGeometry, rightPlaneMaterial);
+        rightPlaneMesh.position.x = 10;
+        rightPlaneMesh.rotation.y = -Math.PI / 2;
+        this.scene.add(rightPlaneMesh);
     },
 
     initializeLights() {
