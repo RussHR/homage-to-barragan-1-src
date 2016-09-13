@@ -23,19 +23,30 @@ export default {
     },
 
     initializeMeshes() {
+        // center box
         const boxGeometry =  new THREE.BoxGeometry(1, 1, 1);
         const color = new THREE.Color(0xffffff);
         const material = new THREE.MeshBasicMaterial({ color });
         const boxMesh = new THREE.Mesh(boxGeometry, material);
         this.scene.add(boxMesh);
 
+        // ground plane
         const planeColor = new THREE.Color(0xdddddd);
         const planeMaterial = new THREE.MeshBasicMaterial({ color: planeColor });
-        const planeGeometry =  new THREE.PlaneGeometry(20, 20, 20);
+        const planeGeometry =  new THREE.PlaneGeometry(20, 20);
         const planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
         planeMesh.rotation.x = -Math.PI / 2;
         planeMesh.position.y = -0.5;
         this.scene.add(planeMesh);
+
+        // back plane
+        const backPlaneColor = new THREE.Color(0xeeeeee);
+        const backPlaneMaterial = new THREE.MeshBasicMaterial({ color: backPlaneColor });
+        const backPlaneGeometry =  new THREE.PlaneGeometry(20, 8);
+        const backPlaneMesh = new THREE.Mesh(backPlaneGeometry, backPlaneMaterial);
+        backPlaneMesh.position.y = 3;
+        backPlaneMesh.position.z = -10;
+        this.scene.add(backPlaneMesh);
     },
 
     initializeLights() {
