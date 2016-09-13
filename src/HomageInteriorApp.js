@@ -23,20 +23,19 @@ export default {
     },
 
     initializeMeshes() {
-        const vector = new THREE.Vector3();
-        vector.x = 1;
-        vector.y = 1;
-        vector.unproject(this.camera);
-        const direction = vector.sub(this.camera.position).normalize();
-        const distance = -this.camera.position.z / direction.z;
-        const position = this.camera.position.clone().add(direction.multiplyScalar(distance));
-        console.log(position.x, position.y);
-
-        const boxGeometry =  new THREE.BoxGeometry(5, 5, 5);
+        const boxGeometry =  new THREE.BoxGeometry(1, 1, 1);
         const color = new THREE.Color(0xffffff);
         const material = new THREE.MeshBasicMaterial({ color });
         const boxMesh = new THREE.Mesh(boxGeometry, material);
         this.scene.add(boxMesh);
+
+        const planeColor = new THREE.Color(0xdddddd);
+        const planeMaterial = new THREE.MeshBasicMaterial({ color: planeColor });
+        const planeGeometry =  new THREE.PlaneGeometry(20, 20, 20);
+        const planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
+        planeMesh.rotation.x = -Math.PI / 2;
+        planeMesh.position.y = -0.5;
+        this.scene.add(planeMesh);
     },
 
     initializeLights() {
@@ -47,7 +46,7 @@ export default {
     initializeCamera() {
         const { innerHeight, innerWidth } = window;
         this.camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 0.1, 1000);
-        this.camera.position.z = 120;
+        this.camera.position.z = 10;
         this.camera.lookAt(this.scene.position);
     },
 
@@ -78,7 +77,6 @@ export default {
     },
 
     renderAnim(time) {
-        // console.log(Math.sin(time / 1000));
         this.renderer.render(this.scene, this.camera);
         requestAnimationFrame((timestamp) => this.renderAnim(timestamp));
     }
