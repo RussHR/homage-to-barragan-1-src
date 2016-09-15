@@ -24,7 +24,7 @@ export default {
 
     initializeMeshes() {
         // center box
-        const boxGeometry =  new THREE.BoxGeometry(1, 1, 1);
+        const boxGeometry =  new THREE.TorusGeometry(0.75, 0.4, 5, 5, 3.4);
         const color = new THREE.Color(0xffffff);
         const material = new THREE.MeshBasicMaterial({ color });
         const boxMesh = new THREE.Mesh(boxGeometry, material);
