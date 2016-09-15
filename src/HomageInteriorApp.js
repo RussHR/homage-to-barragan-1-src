@@ -32,7 +32,7 @@ export default {
 
         // ground plane
         const planeColor = new THREE.Color(0xdddddd);
-        const planeMaterial = new THREE.MeshBasicMaterial({ color: planeColor });
+        const planeMaterial = new THREE.MeshLambertMaterial({ color: planeColor });
         const planeGeometry =  new THREE.PlaneGeometry(20, 20);
         const planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
         planeMesh.rotation.x = -Math.PI / 2;
@@ -41,7 +41,7 @@ export default {
 
         // back plane
         const backPlaneColor = new THREE.Color(0xeeeeee);
-        const backPlaneMaterial = new THREE.MeshBasicMaterial({ color: backPlaneColor });
+        const backPlaneMaterial = new THREE.MeshLambertMaterial({ color: backPlaneColor });
         const backPlaneGeometry =  new THREE.PlaneGeometry(20, 8);
         const backPlaneMesh = new THREE.Mesh(backPlaneGeometry, backPlaneMaterial);
         backPlaneMesh.position.z = -10;
@@ -49,7 +49,7 @@ export default {
 
         // back plane
         const frontPlaneColor = new THREE.Color(0xaaaaaa);
-        const frontPlaneMaterial = new THREE.MeshBasicMaterial({ color: frontPlaneColor });
+        const frontPlaneMaterial = new THREE.MeshLambertMaterial({ color: frontPlaneColor });
         const frontPlaneGeometry =  new THREE.PlaneGeometry(20, 8);
         const frontPlaneMesh = new THREE.Mesh(frontPlaneGeometry, frontPlaneMaterial);
         frontPlaneMesh.position.z = 10;
@@ -58,7 +58,7 @@ export default {
 
         // left plane
         const leftPlaneColor = new THREE.Color(0xcccccc);
-        const leftPlaneMaterial = new THREE.MeshBasicMaterial({ color: leftPlaneColor });
+        const leftPlaneMaterial = new THREE.MeshLambertMaterial({ color: leftPlaneColor });
         const leftPlaneGeometry =  new THREE.PlaneGeometry(20, 8);
         const leftPlaneMesh = new THREE.Mesh(leftPlaneGeometry, leftPlaneMaterial);
         leftPlaneMesh.position.x = -10;
@@ -67,7 +67,7 @@ export default {
 
         // right plane
         const rightPlaneColor = new THREE.Color(0xbbbbbb);
-        const rightPlaneMaterial = new THREE.MeshBasicMaterial({ color: rightPlaneColor });
+        const rightPlaneMaterial = new THREE.MeshLambertMaterial({ color: rightPlaneColor });
         const rightPlaneGeometry =  new THREE.PlaneGeometry(20, 8);
         const rightPlaneMesh = new THREE.Mesh(rightPlaneGeometry, rightPlaneMaterial);
         rightPlaneMesh.position.x = 10;
