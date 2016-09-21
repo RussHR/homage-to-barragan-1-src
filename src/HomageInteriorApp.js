@@ -143,11 +143,11 @@ export default {
 
     renderAnim(time) {
         // move the light
-        const lightAngle = time / 3000;
-        this.directionalLight.position.set(Math.cos(lightAngle), Math.abs(Math.sin(lightAngle)), 0);
+        const lightAngle = time / 3333;
+        this.directionalLight.position.set(50 * Math.cos(lightAngle), 50 * Math.abs(Math.sin(lightAngle)), 0);
 
         // move the camera
-        const cameraAngle = time / 4000;
+        const cameraAngle = time / 5555;
         this.camera.position.set(cameraDistance * Math.sin(cameraAngle), 0, cameraDistance * Math.cos(cameraAngle));
         this.camera.lookAt(this.scene.position);
 
