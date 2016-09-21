@@ -26,12 +26,12 @@ export default {
 
     initializeMeshes() {
         // center shape
-        const boxGeometry =  new THREE.TorusGeometry(0.75, 0.4, 5, 5, 3.4);
+        const centerGeometry =  new THREE.TorusGeometry(0.75, 0.4, 5, 5, 3.4);
         const color = new THREE.Color(0xffffff);
         const material = new THREE.MeshBasicMaterial({ color });
-        const boxMesh = new THREE.Mesh(boxGeometry, material);
-        boxMesh.castShadow = true;
-        this.scene.add(boxMesh);
+        this.centerMesh = new THREE.Mesh(centerGeometry, material);
+        this.centerMesh.castShadow = true;
+        this.scene.add(this.centerMesh);
 
         // ground plane
         const planeColor = new THREE.Color(0x90C3D4);
@@ -150,6 +150,9 @@ export default {
         const cameraAngle = time / 5555;
         this.camera.position.set(cameraDistance * Math.sin(cameraAngle), 0, cameraDistance * Math.cos(cameraAngle));
         this.camera.lookAt(this.scene.position);
+
+        // rotate center shape
+        this.centerMesh.rotation.y = cameraAngle;
 
         this.renderer.render(this.scene, this.camera);
         requestAnimationFrame((timestamp) => this.renderAnim(timestamp));
