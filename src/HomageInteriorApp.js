@@ -2,6 +2,8 @@ import throttle from 'lodash/throttle';
 
 const THREE = require('three');
 
+const cameraDistance = 10;
+
 export default {
     init() {
         this.findDomElements();
@@ -94,16 +96,20 @@ export default {
         this.scene.add(ambientLight);
 
 
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.75);
-        directionalLight.position.set(0, 1, 0);
-        directionalLight.castShadow = true;
-        this.scene.add(directionalLight);
+        this.directionalLight = new THREE.DirectionalLight(0xffffff, 0.75);
+        this.directionalLight.position.set(1, 0, 0);
+        this.directionalLight.castShadow = true;
+        this.scene.add(this.directionalLight);
+
+        // directional light helper, comment out before resolving
+        const directionalLightHelper = new THREE.DirectionalLightHelper(this.directionalLight);
+        this.scene.add(directionalLightHelper);
     },
 
     initializeCamera() {
         const { innerHeight, innerWidth } = window;
         this.camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 0.1, 1000);
-        this.camera.position.z = 10;
+        this.camera.position.z = cameraDistance;
         this.camera.lookAt(this.scene.position);
     },
 
@@ -136,6 +142,15 @@ export default {
     },
 
     renderAnim(time) {
+        // move the light
+        const lightAngle = time / 2500;
+        this.directionalLight.position.set(Math.cos(lightAngle), Math.sin(lightAngle), 0);
+
+        // move the camera
+        const cameraAngle = time / 2500;
+        this.camera.position.set(cameraDistance * Math.sin(cameraAngle), 0, cameraDistance * Math.cos(cameraAngle));
+        this.camera.lookAt(this.scene.position);
+
         this.renderer.render(this.scene, this.camera);
         requestAnimationFrame((timestamp) => this.renderAnim(timestamp));
     }
