@@ -100,10 +100,6 @@ export default {
         this.directionalLight.position.set(1, 0, 0);
         this.directionalLight.castShadow = true;
         this.scene.add(this.directionalLight);
-
-        // directional light helper, comment out before resolving
-        const directionalLightHelper = new THREE.DirectionalLightHelper(this.directionalLight);
-        this.scene.add(directionalLightHelper);
     },
 
     initializeCamera() {
