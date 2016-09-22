@@ -3,12 +3,14 @@ import throttle from 'lodash/throttle';
 const THREE = require('three');
 
 const cameraDistance = 10;
+
 const colorDayR = 216 / 255;
 const colorDayG = 230 / 255;
 const colorDayB = 1;
 const colorEveningR = 240 / 255;
 const colorEveningG = 196 / 255;
 const colorEveningB = 146 / 255;
+const colorGroundPlane = new THREE.Color(0x90C3D4);
 
 export default {
     init() {
@@ -41,8 +43,7 @@ export default {
         this.scene.add(this.centerMesh);
 
         // ground plane
-        const planeColor = new THREE.Color(0x90C3D4);
-        const planeMaterial = new THREE.MeshPhongMaterial({ color: planeColor });
+        const planeMaterial = new THREE.MeshPhongMaterial({ color: colorGroundPlane });
         const planeGeometry =  new THREE.PlaneGeometry(20, 20);
         const planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
         planeMesh.rotation.x = -Math.PI / 2;
@@ -99,14 +100,20 @@ export default {
     },
 
     initializeLights() {
-        const ambientLight = new THREE.AmbientLight(0x4B4B4B);
+        const ambientLight = new THREE.AmbientLight(0xcccccc);
+        ambientLight.intensity = 0.4;
         this.scene.add(ambientLight);
-
 
         this.directionalLight = new THREE.DirectionalLight(0xffffff, 0.75);
         this.directionalLight.position.set(1, 0, 0);
         this.directionalLight.castShadow = true;
         this.scene.add(this.directionalLight);
+
+        this.hemiLight = new THREE.HemisphereLight();
+        this.hemiLight.position.y = 100;
+        this.hemiLight.groundColor = colorGroundPlane;
+        this.hemiLight.intensity = 0.3;
+        this.scene.add(this.hemiLight);
     },
 
     initializeCamera() {
@@ -160,11 +167,15 @@ export default {
         const angleFromCenter = Math.abs((lightAngle % Math.PI) - (0.5 * Math.PI));
         const eveningRatio = angleFromCenter / (0.5 * Math.PI);
         const dayRatio = 1 - eveningRatio;
-        this.renderer.setClearColor(new THREE.Color(
+        const skyColor = new THREE.Color(
             colorDayR * dayRatio + colorEveningR * eveningRatio,
             colorDayG * dayRatio + colorEveningG * eveningRatio,
             colorDayB * dayRatio + colorEveningB * eveningRatio
-        ));
+        );
+        this.renderer.setClearColor(skyColor);
+
+        // change hemisphere light color
+        this.hemiLight.color = skyColor;
 
         this.renderer.render(this.scene, this.camera);
         requestAnimationFrame((timestamp) => this.renderAnim(timestamp));
