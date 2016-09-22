@@ -3,6 +3,12 @@ import throttle from 'lodash/throttle';
 const THREE = require('three');
 
 const cameraDistance = 10;
+const colorDayR = 216 / 255;
+const colorDayG = 230 / 255;
+const colorDayB = 1;
+const colorEveningR = 1;
+const colorEveningG = 133 / 255;
+const colorEveningB = 0;
 
 export default {
     init() {
@@ -113,7 +119,6 @@ export default {
         const { innerHeight, innerWidth } = window;
         this.renderer = new THREE.WebGLRenderer({ antialias: true });
         this.renderer.setSize(innerWidth, innerHeight);
-        this.renderer.setClearColor(new THREE.Color(0xd8e6ff));
 
         while (this.appEl.hasChildNodes()) {
             this.appEl.removeChild(this.appEl.firstChild);
@@ -149,6 +154,16 @@ export default {
 
         // rotate center shape
         this.centerMesh.rotation.y = cameraAngle;
+
+        // change sky color
+        const angleFromCenter = Math.abs((lightAngle % Math.PI) - (0.5 * Math.PI));
+        const eveningRatio = angleFromCenter / (0.5 * Math.PI);
+        const dayRatio = 1 - eveningRatio;
+        this.renderer.setClearColor(new THREE.Color(
+            colorDayR * dayRatio + colorEveningR * eveningRatio,
+            colorDayG * dayRatio + colorEveningG * eveningRatio,
+            colorDayB * dayRatio + colorEveningB * eveningRatio
+        ));
 
         this.renderer.render(this.scene, this.camera);
         requestAnimationFrame((timestamp) => this.renderAnim(timestamp));
