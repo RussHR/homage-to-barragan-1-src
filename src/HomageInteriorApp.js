@@ -32,16 +32,16 @@ export default {
 
     initializeMeshes() {
         // center shape
-        const centerGeometry =  new THREE.TorusGeometry(0.75, 0.4, 5, 5, 3.4);
+        const centerGeometry =  new THREE.TorusGeometry(0.75, 0.4, 20, 5, 3.4);
         const color = new THREE.Color(0xffffff);
-        const material = new THREE.MeshBasicMaterial({ color });
+        const material = new THREE.MeshPhongMaterial({ color });
         this.centerMesh = new THREE.Mesh(centerGeometry, material);
         this.centerMesh.castShadow = true;
         this.scene.add(this.centerMesh);
 
         // ground plane
         const planeColor = new THREE.Color(0x90C3D4);
-        const planeMaterial = new THREE.MeshLambertMaterial({ color: planeColor });
+        const planeMaterial = new THREE.MeshPhongMaterial({ color: planeColor });
         const planeGeometry =  new THREE.PlaneGeometry(20, 20);
         const planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
         planeMesh.rotation.x = -Math.PI / 2;
