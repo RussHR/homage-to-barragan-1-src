@@ -6,9 +6,9 @@ const cameraDistance = 10;
 const colorDayR = 216 / 255;
 const colorDayG = 230 / 255;
 const colorDayB = 1;
-const colorEveningR = 1;
-const colorEveningG = 133 / 255;
-const colorEveningB = 0;
+const colorEveningR = 240 / 255;
+const colorEveningG = 196 / 255;
+const colorEveningB = 146 / 255;
 
 export default {
     init() {
