@@ -1,3 +1,4 @@
+import sample from 'lodash/sample';
 import throttle from 'lodash/throttle';
 
 const THREE = require('three');
@@ -11,6 +12,8 @@ const colorEveningR = 240 / 255;
 const colorEveningG = 196 / 255;
 const colorEveningB = 146 / 255;
 const colorGroundPlane = new THREE.Color(0x90C3D4);
+
+const barraganColors = [ 0x814e3d, 0x5fcdfa, 0xf0e14a, 0xdc502d, 0xf091af, 0xffffff ];
 
 export default {
     init() {
@@ -52,7 +55,7 @@ export default {
         this.scene.add(planeMesh);
 
         // back plane
-        const backPlaneColor = new THREE.Color(0xeeeeee);
+        const backPlaneColor = new THREE.Color(sample(barraganColors));
         const backPlaneMaterial = new THREE.MeshLambertMaterial({ color: backPlaneColor });
         const backPlaneGeometry =  new THREE.PlaneGeometry(20, 7);
         const backPlaneMesh = new THREE.Mesh(backPlaneGeometry, backPlaneMaterial);
@@ -63,7 +66,7 @@ export default {
         this.scene.add(backPlaneMesh);
 
         // front plane
-        const frontPlaneColor = new THREE.Color(0xaaaaaa);
+        const frontPlaneColor = new THREE.Color(sample(barraganColors));
         const frontPlaneMaterial = new THREE.MeshLambertMaterial({ color: frontPlaneColor });
         const frontPlaneGeometry =  new THREE.PlaneGeometry(20, 7);
         const frontPlaneMesh = new THREE.Mesh(frontPlaneGeometry, frontPlaneMaterial);
@@ -75,7 +78,7 @@ export default {
         this.scene.add(frontPlaneMesh);
 
         // left plane
-        const leftPlaneColor = new THREE.Color(0xcccccc);
+        const leftPlaneColor = new THREE.Color(sample(barraganColors));
         const leftPlaneMaterial = new THREE.MeshLambertMaterial({ color: leftPlaneColor });
         const leftPlaneGeometry =  new THREE.PlaneGeometry(20, 7);
         const leftPlaneMesh = new THREE.Mesh(leftPlaneGeometry, leftPlaneMaterial);
@@ -87,7 +90,7 @@ export default {
         this.scene.add(leftPlaneMesh);
 
         // right plane
-        const rightPlaneColor = new THREE.Color(0xbbbbbb);
+        const rightPlaneColor = new THREE.Color(sample(barraganColors));
         const rightPlaneMaterial = new THREE.MeshLambertMaterial({ color: rightPlaneColor });
         const rightPlaneGeometry =  new THREE.PlaneGeometry(20, 7);
         const rightPlaneMesh = new THREE.Mesh(rightPlaneGeometry, rightPlaneMaterial);
