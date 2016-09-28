@@ -56,9 +56,9 @@ export default {
 
         // back plane
         const backPlaneColor = new THREE.Color(sample(barraganColors));
-        const backPlaneMaterial = new THREE.MeshLambertMaterial({ color: backPlaneColor });
+        this.backPlaneMaterial = new THREE.MeshLambertMaterial({ color: backPlaneColor });
         const backPlaneGeometry =  new THREE.PlaneGeometry(20, 7);
-        const backPlaneMesh = new THREE.Mesh(backPlaneGeometry, backPlaneMaterial);
+        const backPlaneMesh = new THREE.Mesh(backPlaneGeometry, this.backPlaneMaterial);
         backPlaneMesh.position.y = 3;
         backPlaneMesh.position.z = -10;
         backPlaneMesh.castShadow = true;
@@ -67,9 +67,9 @@ export default {
 
         // front plane
         const frontPlaneColor = new THREE.Color(sample(barraganColors));
-        const frontPlaneMaterial = new THREE.MeshLambertMaterial({ color: frontPlaneColor });
+        this.frontPlaneMaterial = new THREE.MeshLambertMaterial({ color: frontPlaneColor });
         const frontPlaneGeometry =  new THREE.PlaneGeometry(20, 7);
-        const frontPlaneMesh = new THREE.Mesh(frontPlaneGeometry, frontPlaneMaterial);
+        const frontPlaneMesh = new THREE.Mesh(frontPlaneGeometry, this.frontPlaneMaterial);
         frontPlaneMesh.position.y = 3;
         frontPlaneMesh.position.z = 10;
         frontPlaneMesh.rotation.y = Math.PI;
@@ -79,9 +79,9 @@ export default {
 
         // left plane
         const leftPlaneColor = new THREE.Color(sample(barraganColors));
-        const leftPlaneMaterial = new THREE.MeshLambertMaterial({ color: leftPlaneColor });
+        this.leftPlaneMaterial = new THREE.MeshLambertMaterial({ color: leftPlaneColor });
         const leftPlaneGeometry =  new THREE.PlaneGeometry(20, 7);
-        const leftPlaneMesh = new THREE.Mesh(leftPlaneGeometry, leftPlaneMaterial);
+        const leftPlaneMesh = new THREE.Mesh(leftPlaneGeometry, this.leftPlaneMaterial);
         leftPlaneMesh.position.x = -10;
         leftPlaneMesh.position.y = 3;
         leftPlaneMesh.rotation.y = Math.PI / 2;
@@ -91,9 +91,9 @@ export default {
 
         // right plane
         const rightPlaneColor = new THREE.Color(sample(barraganColors));
-        const rightPlaneMaterial = new THREE.MeshLambertMaterial({ color: rightPlaneColor });
+        this.rightPlaneMaterial = new THREE.MeshLambertMaterial({ color: rightPlaneColor });
         const rightPlaneGeometry =  new THREE.PlaneGeometry(20, 7);
-        const rightPlaneMesh = new THREE.Mesh(rightPlaneGeometry, rightPlaneMaterial);
+        const rightPlaneMesh = new THREE.Mesh(rightPlaneGeometry, this.rightPlaneMaterial);
         rightPlaneMesh.position.x = 10;
         rightPlaneMesh.position.y = 3;
         rightPlaneMesh.rotation.y = -Math.PI / 2;
@@ -142,8 +142,14 @@ export default {
     },
 
     attachListeners() {
-        this._onWindowResize = throttle(() => this.onWindowResize(), 16.667);
-        window.addEventListener('resize', this._onWindowResize);
+        const onWindowResize = throttle(() => this.onWindowResize(), 16.667);
+        window.addEventListener('resize', onWindowResize);
+
+        const changeColors = throttle(() => this.changeColors(), 16.667);
+
+        window.addEventListener('keyup', changeColors);
+        window.addEventListener('click', changeColors);
+        window.addEventListener('touchstart', changeColors);
     },
 
     onWindowResize() {
@@ -151,6 +157,12 @@ export default {
         this.renderer.setSize(innerWidth, innerHeight);
         this.camera.aspect = innerWidth / innerHeight;
         this.camera.updateProjectionMatrix();
+    },
+
+    changeColors() {
+        ([ 'front', 'back', 'left', 'right' ]).forEach((direction) => {
+            this[`${direction}PlaneMaterial`].color = new THREE.Color(0x000000);
+        });
     },
 
     renderAnim(time) {
