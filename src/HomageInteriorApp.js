@@ -175,7 +175,7 @@ export default {
         ([ 'front', 'back', 'left', 'right' ]).forEach((direction) => {
             const newColor = sample(barraganColors);
             const oldColor = this[`${direction}PlaneMaterial`].color;
-            const tween = new TWEEN.Tween(oldColor, 1000)
+            const tween = new TWEEN.Tween(oldColor, 750)
                 .to(newColor)
                 .start();
         });
