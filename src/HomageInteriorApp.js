@@ -161,7 +161,7 @@ export default {
 
     changeColors() {
         ([ 'front', 'back', 'left', 'right' ]).forEach((direction) => {
-            this[`${direction}PlaneMaterial`].color = new THREE.Color(0x000000);
+            this[`${direction}PlaneMaterial`].color = new THREE.Color(sample(barraganColors));
         });
     },
 
