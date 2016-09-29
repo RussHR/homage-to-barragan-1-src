@@ -1,5 +1,6 @@
 import sample from 'lodash/sample';
 import throttle from 'lodash/throttle';
+import TWEEN from 'tween.js';
 
 const THREE = require('three');
 
@@ -13,7 +14,14 @@ const colorEveningG = 196 / 255;
 const colorEveningB = 146 / 255;
 const colorGroundPlane = new THREE.Color(0x90C3D4);
 
-const barraganColors = [ 0x814e3d, 0x5fcdfa, 0xf0e14a, 0xdc502d, 0xf091af, 0xffffff ];
+const barraganColors = [
+    { r: 129 / 255, g: 78 / 255, b: 61 / 255 },
+    { r: 95 / 255, g: 205 / 255, b: 250 / 255 },
+    { r: 240 / 255, g: 225 / 255, b: 74 / 255 },
+    { r: 220 / 255, g: 80 / 255, b: 45 / 255 },
+    { r: 240 / 255, g: 145 / 255, b: 175 / 255 },
+    { r: 1, g: 1, b: 1 }
+];
 
 export default {
     init() {
@@ -55,7 +63,8 @@ export default {
         this.scene.add(planeMesh);
 
         // back plane
-        const backPlaneColor = new THREE.Color(sample(barraganColors));
+        let newColor = sample(barraganColors);
+        const backPlaneColor = new THREE.Color(newColor.r, newColor.g, newColor.b);
         this.backPlaneMaterial = new THREE.MeshLambertMaterial({ color: backPlaneColor });
         const backPlaneGeometry =  new THREE.PlaneGeometry(20, 7);
         const backPlaneMesh = new THREE.Mesh(backPlaneGeometry, this.backPlaneMaterial);
@@ -66,7 +75,8 @@ export default {
         this.scene.add(backPlaneMesh);
 
         // front plane
-        const frontPlaneColor = new THREE.Color(sample(barraganColors));
+        newColor = sample(barraganColors);
+        const frontPlaneColor = new THREE.Color(newColor.r, newColor.g, newColor.b);
         this.frontPlaneMaterial = new THREE.MeshLambertMaterial({ color: frontPlaneColor });
         const frontPlaneGeometry =  new THREE.PlaneGeometry(20, 7);
         const frontPlaneMesh = new THREE.Mesh(frontPlaneGeometry, this.frontPlaneMaterial);
@@ -78,7 +88,8 @@ export default {
         this.scene.add(frontPlaneMesh);
 
         // left plane
-        const leftPlaneColor = new THREE.Color(sample(barraganColors));
+        newColor = sample(barraganColors);
+        const leftPlaneColor = new THREE.Color(newColor.r, newColor.g, newColor.b);
         this.leftPlaneMaterial = new THREE.MeshLambertMaterial({ color: leftPlaneColor });
         const leftPlaneGeometry =  new THREE.PlaneGeometry(20, 7);
         const leftPlaneMesh = new THREE.Mesh(leftPlaneGeometry, this.leftPlaneMaterial);
@@ -90,7 +101,8 @@ export default {
         this.scene.add(leftPlaneMesh);
 
         // right plane
-        const rightPlaneColor = new THREE.Color(sample(barraganColors));
+        newColor = sample(barraganColors);
+        const rightPlaneColor = new THREE.Color(newColor.r, newColor.g, newColor.b);
         this.rightPlaneMaterial = new THREE.MeshLambertMaterial({ color: rightPlaneColor });
         const rightPlaneGeometry =  new THREE.PlaneGeometry(20, 7);
         const rightPlaneMesh = new THREE.Mesh(rightPlaneGeometry, this.rightPlaneMaterial);
@@ -161,7 +173,11 @@ export default {
 
     changeColors() {
         ([ 'front', 'back', 'left', 'right' ]).forEach((direction) => {
-            this[`${direction}PlaneMaterial`].color = new THREE.Color(sample(barraganColors));
+            const newColor = sample(barraganColors);
+            const oldColor = this[`${direction}PlaneMaterial`].color;
+            const tween = new TWEEN.Tween(oldColor, 1000)
+                .to(newColor)
+                .start();
         });
     },
 
@@ -191,6 +207,9 @@ export default {
 
         // change hemisphere light color
         this.hemiLight.color = skyColor;
+
+        // update tween in case of a color change
+        TWEEN.update(time);
 
         this.renderer.render(this.scene, this.camera);
         requestAnimationFrame((timestamp) => this.renderAnim(timestamp));
